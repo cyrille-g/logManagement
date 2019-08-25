@@ -29,20 +29,34 @@ SOFTWARE.
 #include "LogManagement.h"
 #include <string>
 
-void setup(void)
+
+String str2("test log String");
+std::string str;  
+char *str3;
+int a =50;
+  
+void setup(void)  
 {
 	Serial.begin(115200);
-	Logger.begin();  
+   str3 = (char *)malloc(20); 
+   sprintf(str3,"test log char*");
 }
 
 void loop(void)
 {
-	LOG_LN("test log1")
-  LOG_LN("test log2")
-  LOG_LN("test log3")
-	string str = Logger.getOneLog();
+
+ 
+  LOG_LN(str2)
+  LOG("test log int ")
+  LOG_LN(a)
+  LOG_LN(str3)
+  
+	str = Logger.GetOneLog();
 	Serial.println(str.c_str());
 
-  str = Logger.getAllLogs(false);
+delay(200);
+  str = Logger.GetAllLogsWithNSeparator();
   Serial.println(str.c_str());
+
+delay(200);
 }
