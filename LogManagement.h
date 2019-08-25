@@ -29,8 +29,8 @@ SOFTWARE.
 
 #ifdef NEED_LOG
   #ifdef NEED_QUEUE_LOG
-    #define LOG(x)    {do {Serial.print(x); Logger.addLog(x);)}while(0);}
-    #define LOG_LN(x)  {do {Serial.println(x); Logger.addLog(x);}while(0);}
+    #define LOG(x) {Serial.print(x); Logger.AddLog(x);}
+    #define LOG_LN(x) {Serial.println(x); Logger.AddLog(x);}
   #else
     #define LOG(x)     {Serial.print(x);}
     #define LOG_LN(x)   {Serial.println(x);}
@@ -41,15 +41,12 @@ SOFTWARE.
 #endif 
 
 
-
 #include <queue>
-#include <ostream>
 #include <string>
 
 #include "arduino.h"
 #define CGE_MAX_LOG_COUNT 12
 
-using namespace std; 
 class LogManagement
 {
 	
@@ -57,17 +54,20 @@ class LogManagement
   
   LogManagement(int maxLogCount= CGE_MAX_LOG_COUNT); 
   ~LogManagement(void);
-  void begin(void);
-  void addLog(int logToAdd);
-  void addLog(string &logToAdd);
-  void addLog(char * logToAdd);
+  
+  void AddLog(const int &logToAdd);
+  void AddLog(const char * logToAdd);
+  void AddLog(const String &logToAdd);
+  void AddLog(const std::string &logToAdd);
 
-  string getOneLog(void);
-  string getAllLogs(bool withBrSeparator);
+  std::string GetOneLog(void);
+  std::string GetAllLogsWithBrSeparator(void) { return GetAllLogs(true); };
+  std::string GetAllLogsWithNSeparator(void) { return GetAllLogs(false); };
   
   private:
+  std::string GetAllLogs(bool withBrSeparator);
   int _maxLogCount;
-  queue<string*> _logQueue;  
+  std::queue<std::string*> _logQueue;  
 };
 
 extern LogManagement Logger;

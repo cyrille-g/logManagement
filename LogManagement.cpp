@@ -43,13 +43,13 @@ SOFTWARE.
     }
   }
 
-  string LogManagement::getOneLog(void)
+  std::string LogManagement::GetOneLog(void)
   { 
-	string str("");
+	std::string str("");
 	
     if (!_logQueue.empty())
     {
-      string *pStr = _logQueue.front();
+      std::string *pStr = _logQueue.front();
 	  str.append(*pStr);
 	  delete pStr;
       _logQueue.pop();
@@ -58,13 +58,13 @@ SOFTWARE.
     return str;
   } 
 
-  string LogManagement::getAllLogs(bool withBrSeparator)
+  std::string LogManagement::GetAllLogs(bool withBrSeparator)
   { 
-	string str("");
-	
+	std::string str("");
+	std::string *pStr=NULL;
     while(!_logQueue.empty())
     {
-      string *pStr = _logQueue.front();
+      pStr = _logQueue.front();
 	  str.append(*pStr);
 	  if (withBrSeparator)
 		  str.append("<BR>");
@@ -77,21 +77,9 @@ SOFTWARE.
     return str;
   } 
 
-  void LogManagement::addLog(int logToAdd)
-  {
-	char tmpBuffer[60];
-	snprintf(tmpBuffer,59,"%d",logToAdd);
-	addLog(tmpBuffer);
-  }
-  
-  void LogManagement::addLog(char * logToAdd)
-  { 
-    string str(logToAdd);
-    addLog(str);
-  } 
 
 
-  void LogManagement::addLog(string &logToAdd)
+  void LogManagement::AddLog(const std::string &logToAdd)
   { 
       /* check if we reached max size, and if so, cleanup */
     while (_logQueue.size() >= _maxLogCount)
@@ -101,9 +89,27 @@ SOFTWARE.
     }
 
     /* now insert the new element */
-    string *pStr = new string(logToAdd);
+    std::string *pStr = new std::string(logToAdd);
     _logQueue.push(pStr);
   } 
   
 
+  void LogManagement::AddLog(const int &logToAdd)
+  {
+	char tmpBuffer[60];
+	snprintf(tmpBuffer,59,"%d",logToAdd);
+	
+	AddLog((const char *)tmpBuffer);
+  }
+  
+  void LogManagement::AddLog(const char * logToAdd)
+  { 
+    const std::string str(logToAdd);
+    AddLog(str);
+  } 
 
+  void LogManagement::AddLog(const String &logToAdd)
+  { 
+    std::string str(logToAdd.c_str());
+    AddLog(str);
+  } 
