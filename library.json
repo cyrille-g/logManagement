@@ -1,0 +1,19 @@
+{
+"name": "logManagement",
+"frameworks": "Arduino",
+"keywords": "CGElog",
+"description": "log library with message queuing and serial",
+"url": "http://",
+"authors":
+[
+{
+        "name": "Cyrille Gaillardet"
+}
+],
+"repository":
+{
+    "type": "git",
+    "url": "https://github.com/cyrille-g/logManagement"
+}
+}
+
